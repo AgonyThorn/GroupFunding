@@ -3,7 +3,7 @@
   "auther": "Trong",
   "version": "1.0.0",
   "devDependencies": {
-    "@chainlink/contracts": "^0.7.1",
+    "@chainlink/contracts": "^0.8.0",
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
     "@nomicfoundation/hardhat-ethers": "^3.0.0",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
@@ -14,13 +14,14 @@
     "@typechain/hardhat": "^8.0.0",
     "chai": "^4.2.0",
     "ethers": "^6.7.1",
-    "hardhat": "^2.17.4",
+    "hardhat": "^2.18.0",
     "hardhat-deploy": "^0.11.37",
     "hardhat-gas-reporter": "^1.0.8",
     "solidity-coverage": "^0.8.0",
     "typechain": "^8.1.0"
   },
   "dependencies": {
+    "chainlink": "^0.8.2",
     "dotenv": "^16.3.1",
     "solhint": "^3.6.2"
   },
