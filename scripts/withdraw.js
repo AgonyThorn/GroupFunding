@@ -1,10 +1,10 @@
 const { ethers } = require("hardhat")
 
 async function main() {
-    const fundMeAtAddress = (await deployments.get("FundMe")).address
-    const fundMe = await ethers.getContractAt("FundMe", fundMeAtAddress)
+    const fundUsAtAddress = (await deployments.get("FundUs")).address
+    const fundUs = await ethers.getContractAt("FundUs", fundUsAtAddress)
     console.log("Funding...")
-    const transactionResponse = await fundMe.withdraw()
+    const transactionResponse = await fundUs.withdraw()
     await transactionResponse.wait(1)
     console.log("Got it back!")
 }

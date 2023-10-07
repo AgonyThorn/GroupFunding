@@ -75,7 +75,7 @@ contract FundUs {
     }
 
     function withdraw() public onlyOwners {
-        require(s_owners.length > 0, "No owner!!!") // avoid x/0 
+        require(s_owners.length > 0, "No owner!!!"); // avoid x/0 
         uint256 amountToSend = address(this).balance / s_owners.length;
         
         for (

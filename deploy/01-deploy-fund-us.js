@@ -17,7 +17,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     }
 
     const args = [ethUsdPriceFeedAddress]
-    const fundMe = await deploy("FundMe", {
+    const fundUs = await deploy("FundUs", {
         from: deployer,
         args: args,
         log: true,
@@ -27,8 +27,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         !developmentChains.includes(network.name) &&
         process.env.ETHERSCAN_API_KEY
     ) {
-        await verify(fundMe.address, args)
+        await verify(fundUs.address, args)
     }
     log("------------------------------------------------")
 }
-module.exports.tags = ["all", "fundme"]
+module.exports.tags = ["all", "fundus"]
