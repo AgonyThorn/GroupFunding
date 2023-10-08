@@ -26,6 +26,8 @@ contract FundUs {
     mapping(address => uint256) private s_addressToAmountFunded;
     address[] private s_owners;
 
+    uint256 public s_totalFund;
+
     uint256 public constant MINIMUM_USD = 50 * 10 ** 18;
 
     AggregatorV3Interface private s_priceFeed;
@@ -75,17 +77,17 @@ contract FundUs {
     }
 
     function withdraw() public onlyOwners {
-        require(s_owners.length > 0, "No owner!!!"); // avoid x/0 
+        require(s_owners.length > 0, "No owner!!!"); // avoid x/0
         uint256 amountToSend = address(this).balance / s_owners.length;
-        
+
         for (
             uint256 OwnersIndex = 0;
             OwnersIndex < s_owners.length;
             OwnersIndex++
         ) {
-            (bool success, ) = s_owners[OwnersIndex].call{
-                value: amountToSend 
-            }("");
+            (bool success, ) = s_owners[OwnersIndex].call{value: amountToSend}(
+                ""
+            );
             require(success, "Withdraw fail!");
         }
         s_totalFund = 0;
@@ -101,7 +103,8 @@ contract FundUs {
     function getPriceFeed() public view returns (AggregatorV3Interface) {
         return s_priceFeed;
     }
-    function getOwners(uint256 index) public view return(address){
+
+    function getOwners(uint256 index) public view returns (address) {
         return s_owners[index];
     }
 }
