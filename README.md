@@ -34,3 +34,12 @@ To get started with GroupFunding, follow these steps:
 - Ensure that you deploy the contract on a secure Ethereum network.
 - Implement proper access control to add and manage owners.
 - Review and test the contract thoroughly to identify and mitigate potential security risks.
+<hr>
+
+Latest updated from developer: Oct-8th/2023
+
+Unexpected encounter with gas estimation (already manually set gas limit in hardhat-config file). 
+The contract using several loop statements, potentially the cause of the problem.
+Due to the error, this contract is haven't fully tested and not recommend to put into use.
+
+If you know a method to resolve the problem, please contact the owner of this repo. Highly appreciated!

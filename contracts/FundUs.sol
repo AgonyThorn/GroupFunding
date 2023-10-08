@@ -26,7 +26,7 @@ contract FundUs {
     mapping(address => uint256) private s_addressToAmountFunded;
     address[] private s_owners;
 
-    uint256 public s_totalFund;
+    uint256 public s_totalFunds;
 
     uint256 public constant MINIMUM_USD = 50 * 10 ** 18;
 
@@ -51,7 +51,7 @@ contract FundUs {
     constructor(address priceFeedAddress) {
         s_owners[0] = msg.sender;
         s_priceFeed = AggregatorV3Interface(priceFeedAddress);
-        s_totalFund = 0;
+        s_totalFunds = 0;
     }
 
     receive() external payable {
@@ -72,7 +72,7 @@ contract FundUs {
             msg.value.getConversionRate(s_priceFeed) >= MINIMUM_USD,
             "You need to spend more ETH!"
         );
-        s_totalFund += msg.value;
+        s_totalFunds += msg.value;
         //view how much has been funded
     }
 
@@ -90,7 +90,7 @@ contract FundUs {
             );
             require(success, "Withdraw fail!");
         }
-        s_totalFund = 0;
+        s_totalFunds = 0;
     }
 
     //getter - encapsulation
