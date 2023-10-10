@@ -15,7 +15,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
               console.log(`Deployer is: ${deployer}`)
 
               const fundUsAtAddress = (await deployments.get("FundUs")).address
-              fundUs = await ethers.getContractAt("FundUs", fundUstAddress)
+              fundUs = await ethers.getContractAt("FundUs", fundUsAtAddress)
 
               const mockV3AggregatorAddress = (
                   await deployments.get("MockV3Aggregator")
