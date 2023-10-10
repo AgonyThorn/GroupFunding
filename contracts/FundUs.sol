@@ -7,7 +7,7 @@ import "./PriceConverter.sol";
 
 //Error codes
 
-//error FundUs__NotOwners();
+error FundUs__NotOwners();
 
 //Interfaces, libraries, contracts
 
@@ -23,7 +23,6 @@ contract FundUs {
     using PriceConverter for uint256;
 
     // State Variables!
-    mapping(address => uint256) private s_addressToAmountFunded;
     address[] private s_owners;
 
     uint256 public s_totalFunds;
@@ -44,7 +43,7 @@ contract FundUs {
                 break;
             }
         }
-        require(isOwner, "Only owners can perform this operation!");
+        if (isOwner = false) revert FundUs__NotOwners();
         _;
     }
 
@@ -75,6 +74,18 @@ contract FundUs {
         s_totalFunds += msg.value;
         //view how much has been funded
     }
+
+    /**
+     * @notice this function add a new owner
+     */
+
+    function addOwner(address newOwner) public onlyOwners {
+        s_owners.push(newOwner);
+    }
+
+    /**
+     * @notice this function allow withdrawing
+     */
 
     function withdraw() public onlyOwners {
         require(s_owners.length > 0, "No owner!!!"); // avoid x/0
