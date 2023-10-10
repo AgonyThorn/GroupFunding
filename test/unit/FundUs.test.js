@@ -88,11 +88,11 @@ const { developmentChains } = require("../../helper-hardhat-config")
               it("Only allows the owners to withdraw", async () => {
                   const accounts = await ethers.getSigners()
                   const owner1 = await fundUs.connect(accounts[0])
-                  const owner2 = await fundUs.connect(accounts[1])
+                  //   const owner2 = await fundUs.connect(accounts[1])
                   const attacker = await fundUs.connect(accounts[2])
 
-                  await fundUs.addOwner(owner1.address)
-                  await fundUs.addOwner(owner2.address)
+                  await fundUs.addOwner(owner1)
+                  //   await fundUs.addOwner(owner2.address)
 
                   await expect(
                       attacker.withdraw()
