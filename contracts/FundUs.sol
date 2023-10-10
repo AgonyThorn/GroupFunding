@@ -49,7 +49,7 @@ contract FundUs {
     }
 
     constructor(address priceFeedAddress) {
-        s_owners[0] = msg.sender;
+        s_owners.push(msg.sender); //created storage slot for s_owners[0] since s_owners is dynamic array
         s_priceFeed = AggregatorV3Interface(priceFeedAddress);
         s_totalFunds = 0;
     }

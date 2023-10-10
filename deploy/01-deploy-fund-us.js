@@ -29,6 +29,6 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     ) {
         await verify(fundUs.address, args)
     }
-    log("------------------------------------------------")
+    log("---------------------------------------------------")
 }
 module.exports.tags = ["all", "fundus"]
