@@ -40,6 +40,6 @@ Latest updated from developer: Oct-10th/2023
 
 Unexpected error on gas-estimation has fixed <br>
 The contract has been tested!
-Unfortunately, unidentified error causing the withdraw test to fail
-Please consider and retest if you are using the contracct
+Unfortunately, unidentified error causing the withdraw test to fail <br>
+Please consider and retest if you are using the contract <br>
 Thank you!

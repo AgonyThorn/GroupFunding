@@ -79,8 +79,8 @@ contract FundUs {
      * @notice this function add a new owner
      */
 
-    function addOwner(address newOwner) public onlyOwners {
-        s_owners.push(newOwner);
+    function addOwner() public onlyOwners {
+        s_owners.push(msg.sender);
     }
 
     /**
@@ -99,7 +99,7 @@ contract FundUs {
             (bool success, ) = s_owners[OwnersIndex].call{value: amountToSend}(
                 ""
             );
-            require(success, "Withdraw fail!");
+            require(success);
         }
         s_totalFunds = 0;
     }
