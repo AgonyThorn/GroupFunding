@@ -41,19 +41,15 @@ const { developmentChains } = require("../../helper-hardhat-config")
               })
 
               it("Updates the amount funded data structure", async () => {
+                  const currentFund = await fundUs.s_totalFunds()
                   await fundUs.fund({ value: sendValue })
-                  const response = await fundUs.getAddressToAmountFunded(
-                      deployer
-                  )
-                  console.log(`Amount funded: ${response}`)
-                  console.log("Updating the fund")
-                  assert.equal(response.toString(), sendValue.toString())
-              })
+                  const updatedFund = await fundUs.s_totalFunds()
 
-              it("Adds funder to array of funders", async () => {
-                  await fundUs.fund({ value: sendValue })
-                  const response = await fundUs.getFunder(0)
-                  assert.equal(response, deployer)
+                  console.log(`Amount funded: ${updatedFund}`)
+                  console.log("Updating the fund")
+                  const expectedFund = currentFund + sendValue
+
+                  assert.equal(updatedFund.toString(), expectedFund.toString())
               })
           })
 
@@ -61,7 +57,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
               beforeEach(async () => {
                   await fundUs.fund({ value: sendValue })
               })
-              it("withdraws ETH from a single funder", async () => {
+              it("withdraws ETH", async () => {
                   // Arrange
                   const startingFundUsBalance =
                       await ethers.provider.getBalance(fundUs.target)
@@ -89,75 +85,44 @@ const { developmentChains } = require("../../helper-hardhat-config")
                       endingDeployerBalance + gasCost
                   )
               })
-
-              it("is allows us to withdraw with multiple funders", async () => {
-                  // Arrange
+              it("Only allows the owners to withdraw", async () => {
                   const accounts = await ethers.getSigners()
-                  for (i = 1 /*index 0 is deployer */; i < 6; i++) {
-                      const fundUsConnectedContract = await fundUs.connect(
-                          accounts[i]
-                      )
-                      await fundUsConnectedContract.fund({ value: sendValue })
-                  }
-                  const startingFundUsBalance =
-                      await ethers.provider.getBalance(fundUs.target)
-                  const startingDeployerBalance =
-                      await ethers.provider.getBalance(deployer)
+                  const owner1 = await fundUs.connect(accounts[0])
+                  const owner2 = await fundUs.connect(accounts[1])
+                  const attacker = await fundUs.connect(accounts[2])
 
-                  // Act
-                  const transactionResponse = await fundUs.withdraw()
-                  const transactionReceipt = await transactionResponse.wait()
-                  const { gasUsed, gasPrice } = transactionReceipt
-                  const gasCost = gasUsed * gasPrice
-                  const endingDeployerBalance =
-                      await ethers.provider.getBalance(deployer)
-                  // Assert
-                  assert.equal(
-                      startingFundUsBalance + startingDeployerBalance,
-                      endingDeployerBalance + gasCost
-                  )
-                  // Make a getter for storage variables
-                  await expect(fundUs.getFunder(0)).to.be.reverted
+                  await fundUs.addOwner(owner1.address)
+                  await fundUs.addOwner(owner2.address)
 
-                  for (i = 1; i < 6; i++) {
-                      assert.equal(
-                          await fundUs.getAddressToAmountFunded(
-                              accounts[i].address
-                          ),
-                          0
-                      )
-                  }
-              })
-              it("Only allows the owner to withdraw", async () => {
-                  const accounts = await ethers.getSigners()
-                  const attackerConnectedContract = await fundUs.connect(
-                      accounts[1]
-                  )
                   await expect(
-                      attackerConnectedContract.withdraw()
-                  ).to.be.revertedWithCustomError(fundUs, "FundUs__NotOwner")
+                      attacker.withdraw()
+                  ).to.be.revertedWithCustomError(fundUs, "FundUs__NotOwners")
               })
           })
           describe("receive", function () {
               it("should receive ethers", async () => {
+                  const currentFund = await fundUs.s_totalFunds()
                   await fundUs.fund({ value: sendValue })
-                  const response = await fundUs.getAddressToAmountFunded(
-                      deployer
-                  )
-                  console.log(`Amount funded: ${response}`)
+                  const updatedFund = await fundUs.s_totalFunds()
+
+                  console.log(`Amount funded: ${updatedFund}`)
                   console.log("Updating the fund")
-                  assert.equal(response.toString(), sendValue.toString())
+                  const expectedFund = currentFund + sendValue
+
+                  assert.equal(updatedFund.toString(), expectedFund.toString())
               })
           })
           describe("fallback", function () {
               it("also should receive ethers", async () => {
+                  const currentFund = await fundUs.s_totalFunds()
                   await fundUs.fund({ value: sendValue })
-                  const response = await fundUs.getAddressToAmountFunded(
-                      deployer
-                  )
-                  console.log(`Amount funded: ${response}`)
+                  const updatedFund = await fundUs.s_totalFunds()
+
+                  console.log(`Amount funded: ${updatedFund}`)
                   console.log("Updating the fund")
-                  assert.equal(response.toString(), sendValue.toString())
+                  const expectedFund = currentFund + sendValue
+
+                  assert.equal(updatedFund.toString(), expectedFund.toString())
               })
           })
       })

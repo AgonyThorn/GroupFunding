@@ -38,5 +38,8 @@ To get started with GroupFunding, follow these steps:
 
 Latest updated from developer: Oct-10th/2023
 
-Unexpected error on gas-estimation has fixed (Credit to: ducmint864)
-The contract; however, still haven't fully tested and highly recommend consider before using!
+Unexpected error on gas-estimation has fixed <br>
+The contract has been tested!
+Unfortunately, unidentified error causing the withdraw test to fail
+Please consider and retest if you are using the contracct
+Thank you!
